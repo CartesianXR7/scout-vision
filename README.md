@@ -144,7 +144,7 @@ OpenCV: Computer vision library
 - rust-cv: Computer vision algorithms in Rust
 -- "Past, Present, and Future of Simultaneous Localization And Mapping: Towards the Robust-Perception Age" - Cadena et al., 2016 - Excellent overview of modern SLAM algorithms
 
-Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
