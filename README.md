@@ -28,3 +28,5 @@ Real-time computer vision for embedded Rust on Raspberry Pi Zero 2W - developed 
 ## Architecture
 
 This project uses a hybrid architecture combining Rust's safety guarantees with Python's hardware access capabilities:
+
+This project is licensed under the MIT License - see the LICENSE file for details.
