@@ -89,40 +89,81 @@ cargo build
 ## Architecture
 
 This project uses a hybrid architecture combining Rust's safety guarantees with Python's hardware access capabilities:
+```bash
 Camera → Python Bridge → Rust Vision System → Navigation Commands
             ↓                  ↓                      ↓
        MJPEG Stream     Object Detection       Motor Control
             ↓                  ↓                      ↓
        Web Interface     Grid Mapping          Path Planning
+```
 
 ## Core Technologies
 
 YOLOv8 by Ultralytics: State-of-the-art object detection model
 
-Jocher, G., Chaurasia, A., & Qiu, J. (2023). Ultralytics YOLO (Version 8.0.0) [Computer software]. https://github.com/ultralytics/ultralytics
+- Jocher, G., Chaurasia, A., & Qiu, J. (2023). Ultralytics YOLO (Version 8.0.0) [Computer software]. [https://github.com/ultralytics/ultralytics]
 
 
 ONNX Runtime: High-performance inference engine
 
-Microsoft Corporation. (2018). ONNX Runtime: Optimize and Accelerate Machine Learning Inferencing and Training. https://onnxruntime.ai/
+- Microsoft Corporation. (2018). ONNX Runtime: Optimize and Accelerate Machine Learning Inferencing and Training. [https://onnxruntime.ai/]
 
 
 OpenCV: Computer vision library
 
-Bradski, G. (2000). The OpenCV Library. Dr. Dobb's Journal of Software Tools.
+- Bradski, G. (2000). The OpenCV Library. Dr. Dobb's Journal of Software Tools.
 
 
 
 ## Rust Dependencies
 
-ort: Rust bindings for ONNX Runtime
-opencv-rust: OpenCV bindings for Rust (inspiration for custom bindings)
-Tokio: Asynchronous runtime for Rust
-Warp: Web server framework
+- [ort](https://github.com/pykeio/ort): Rust bindings for ONNX Runtime
+- [opencv-rust](https://github.com/twistedfall/opencv-rust): OpenCV bindings for Rust (inspiration for custom bindings)
+- [tokio](https://tokio.rs/): Asynchronous runtime for Rust
+- [Warp](https://github.com/seanmonstar/warp): Web server framework
+- [Parking Lot](https://github.com/Amanieu/parking_lot): Improved synchronization primitives
+- [Anyhow](https://github.com/dtolnay/anyhow): Error handling
+- [Serde](https://serde.rs/): Serialization framework
+
+**Hardware & Platform**
+
+- [Raspberry Pi Zero 2W](https://www.raspberrypi.com/products/raspberry-pi-zero-2-w/): Target hardware platform
+- [4tronix Mars Rover Kit](https://shop.4tronix.co.uk/products/marsrover): Robotics platform
+
+**Related Work & Inspiration**
+
+- [rust-cv](https://github.com/rust-cv/cv): Computer vision algorithms in Rust
+- [TheiaSfM](http://theia-sfm.org/): Structure from Motion library (architectural inspiration)
+- "Past, Present, and Future of Simultaneous Localization And Mapping: Towards the Robust-Perception Age" - Cadena et al., 2016 - Excellent overview of modern SLAM algorithms
 
 Related Work & Inspiration
 
 rust-cv: Computer vision algorithms in Rust
-"Past, Present, and Future of Simultaneous Localization And Mapping: Towards the Robust-Perception Age" - Cadena et al., 2016 - Excellent overview of modern SLAM algorithms
+- "Past, Present, and Future of Simultaneous Localization And Mapping: Towards the Robust-Perception Age" - Cadena et al., 2016 - Excellent overview of modern SLAM algorithms
+
+## Project Structure
+```bash
+scout-vision/
+├── src/                        # Rust source code
+│   ├── main.rs                # Entry point
+│   ├── vision.rs              # Vision processing system
+│   ├── vision_bridge.py       # Python camera interface
+│   ├── web.rs                 # Web server & WebSocket
+│   ├── motor_control.rs       # Motor control logic
+│   ├── pathfinding.rs         # Navigation algorithms
+│   └── vision/
+│       └── imx500_yolov8.rs   # YOLOv8 implementation
+├── opencv-embedded/            # Custom OpenCV FFI bindings
+│   ├── src/
+│   │   └── lib.rs
+│   └── Cargo.toml
+├── models/                     # ML models
+│   ├── yolov8n.onnx          # YOLOv8 nano model (12.3MB)
+│   └── coco.names            # Class labels
+├── static/                     # Web interface
+│   └── index.html
+├── Cargo.toml                 # Rust dependencies
+└── Cargo.lock                 # Dependency lock file
+```
 
 This project is licensed under the MIT License - see the LICENSE file for details.
