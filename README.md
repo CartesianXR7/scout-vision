@@ -16,8 +16,8 @@ Real-time computer vision for embedded Rust on Raspberry Pi Zero 2W - developed 
 - **Safety-Critical Design**: Compile-time guarantees for obstacle avoidance
 
 ### If needed: 
-- **[Pre-Compiled Binary] (https://github.com/CartesianXR7/scout-vision/blob/master/target/release/rover)**
-- **[Custom OpenCV Bindings] (https://github.com/CartesianXR7/scout-vision/tree/master/opencv-embedded)**: Hybrid FFI approach avoiding compilation on constrained microc
+- [Pre-Compiled Binary] (https://github.com/CartesianXR7/scout-vision/blob/master/target/release/rover)
+- [Custom OpenCV Bindings] (https://github.com/CartesianXR7/scout-vision/tree/master/opencv-embedded): Hybrid FFI approach avoiding compilation on constrained microc
 
 ## Demo
 
