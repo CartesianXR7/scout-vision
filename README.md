@@ -141,6 +141,33 @@ OpenCV: Computer vision library
 rust-cv: Computer vision algorithms in Rust
 - "Past, Present, and Future of Simultaneous Localization And Mapping: Towards the Robust-Perception Age" - Cadena et al., 2016 - Excellent overview of modern SLAM algorithms
 
+Troubleshooting
+
+### Common Issues
+
+1. **Build fails with "out of memory"**
+  - Use `cargo build` instead of `cargo build --release`
+  - Add swap space: `sudo dphys-swapfile swapsize 2048`
+  - Consider cross-compilation from a more powerful machine
+
+2. **Camera not detected**
+  - Enable camera: `sudo raspi-config` → Interface Options → Camera
+  - Check with: `vcgencmd get_camera`
+  - For USB cameras: `ls /dev/video*`
+
+3. **Web interface not accessible**
+  - Check firewall: `sudo ufw allow 8080`
+  - Verify the service is running: `ps aux | grep scout_hardware`
+  - Check logs: `journalctl -u scout-vision -f`
+
+4. **Model file not found**
+  - Ensure `models/yolov8n.onnx` exists
+  - Download if missing: `./scripts/download_model.sh`
+
+5. **Python bridge errors**
+  - Install Python dependencies: `pip3 install numpy opencv-python`
+  - Check Python version: `python3 --version` (needs 3.9+)
+
 ## Project Structure
 ```bash
 scout-vision/
@@ -166,9 +193,6 @@ scout-vision/
 └── Cargo.lock                 # Dependency lock file
 ```
 
-## License
-This project is licensed under the MIT License - see the LICENSE file for details.
-
 ## Contributing
 Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
 Development Setup
@@ -180,3 +204,5 @@ Commit your changes (git commit -m 'Add some AmazingFeature')
 Push to the branch (git push origin feature/AmazingFeature)
 Open a Pull Request
 ```
+## License
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/CartesianXR7/scout-vision/blob/master/LICENSE) file for details.
