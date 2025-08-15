@@ -66,4 +66,35 @@ sudo apt install -y \
 
 This project uses a hybrid architecture combining Rust's safety guarantees with Python's hardware access capabilities:
 
+
+## Core Technologies
+
+YOLOv8 by Ultralytics: State-of-the-art object detection model
+
+Jocher, G., Chaurasia, A., & Qiu, J. (2023). Ultralytics YOLO (Version 8.0.0) [Computer software]. https://github.com/ultralytics/ultralytics
+
+
+ONNX Runtime: High-performance inference engine
+
+Microsoft Corporation. (2018). ONNX Runtime: Optimize and Accelerate Machine Learning Inferencing and Training. https://onnxruntime.ai/
+
+
+OpenCV: Computer vision library
+
+Bradski, G. (2000). The OpenCV Library. Dr. Dobb's Journal of Software Tools.
+
+
+
+## Rust Dependencies
+
+ort: Rust bindings for ONNX Runtime
+opencv-rust: OpenCV bindings for Rust (inspiration for custom bindings)
+Tokio: Asynchronous runtime for Rust
+Warp: Web server framework
+
+Related Work & Inspiration
+
+rust-cv: Computer vision algorithms in Rust
+"Past, Present, and Future of Simultaneous Localization And Mapping: Towards the Robust-Perception Age" - Cadena et al., 2016 - Excellent overview of modern SLAM algorithms
+
 This project is licensed under the MIT License - see the LICENSE file for details.
