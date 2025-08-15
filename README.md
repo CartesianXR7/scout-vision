@@ -195,9 +195,12 @@ Open a Pull Request
 ## Related Work & Inspiration
 [rust-navigator](https://github.com/CartesianXR7/scout-navigator): navigational pathfinding & re-routing system for an autonomous rover
 - ["Navigating Mars with Rust: Developing an Autonomous Pathfinding Rover"](https://blog.adacore.com/navigating-mars-with-rust-developing-an-autonomous-pathfinding-rover)
+
 [rust-cv](https://github.com/rust-cv/cv): Computer vision algorithms in Rust
+
 [TheiaSfM](http://theia-sfm.org/): Structure from Motion library (architectural inspiration)
 - "Past, Present, and Future of Simultaneous Localization And Mapping: Towards the Robust-Perception Age" - Cadena et al., 2016 - Excellent overview of modern SLAM algorithms
+
 rust-cv: Computer vision algorithms in Rust
 - "Past, Present, and Future of Simultaneous Localization And Mapping: Towards the Robust-Perception Age" - Cadena et al., 2016 - Excellent overview of modern SLAM algorithms
 
