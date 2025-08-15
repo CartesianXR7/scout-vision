@@ -55,7 +55,7 @@ sudo apt install -y \
     libfreetype6-dev \
     libxkbcommon-dev \
     libudev-dev
-
+'''
 ## Demo
 
 ![Rover Vision Demo](docs/images/demo.gif)
