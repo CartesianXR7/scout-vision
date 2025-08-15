@@ -33,7 +33,7 @@ Real-time computer vision for embedded Rust on Raspberry Pi Zero 2W - developed 
 - Python 3.9+
 - OpenCV 4.5+ system libraries
 
-## 🔧 Build Instructions
+## Build Instructions
 
 ### Install System Dependencies
 
