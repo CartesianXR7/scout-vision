@@ -21,14 +21,14 @@ Real-time computer vision for embedded Rust on Raspberry Pi Zero 2W - developed 
 
 ## 📋 Prerequisites
 
-### Hardware Requirements
+### Optional Hardware Selections
 - Raspberry Pi Zero 2W (512MB RAM minimum)
 - Raspberry Pi Camera Module or USB camera
 - MicroSD card (16GB minimum)
 - 5V 2.5A power supply (recommended: Waveshare UPS HAT for extended operation)
 
-### Software Requirements
-- Raspberry Pi OS Lite (64-bit)
+### Software Selections
+- Raspberry Pi OS Lite (64-bit) <- Optional
 - Rust 1.75.0 or later
 - Python 3.9+
 - OpenCV 4.5+ system libraries
@@ -101,12 +101,12 @@ Camera → Python Bridge → Rust Vision System → Navigation Commands
 
 YOLOv8 by Ultralytics: State-of-the-art object detection model
 
-- Jocher, G., Chaurasia, A., & Qiu, J. (2023). Ultralytics YOLO (Version 8.0.0) [Computer software]. [https://github.com/ultralytics/ultralytics]
+- Jocher, G., Chaurasia, A., & Qiu, J. (2023). Ultralytics YOLO (Version 8.0.0) [Computer software]. [LINK](https://github.com/ultralytics/ultralytics)
 
 
 ONNX Runtime: High-performance inference engine
 
-- Microsoft Corporation. (2018). ONNX Runtime: Optimize and Accelerate Machine Learning Inferencing and Training. [https://onnxruntime.ai/]
+- Microsoft Corporation. (2018). ONNX Runtime: Optimize and Accelerate Machine Learning Inferencing and Training. [LINK](https://onnxruntime.ai/)
 
 
 OpenCV: Computer vision library
@@ -136,7 +136,7 @@ OpenCV: Computer vision library
 - [TheiaSfM](http://theia-sfm.org/): Structure from Motion library (architectural inspiration)
 - "Past, Present, and Future of Simultaneous Localization And Mapping: Towards the Robust-Perception Age" - Cadena et al., 2016 - Excellent overview of modern SLAM algorithms
 
-Related Work & Inspiration
+**Related Work & Inspiration**
 
 rust-cv: Computer vision algorithms in Rust
 - "Past, Present, and Future of Simultaneous Localization And Mapping: Towards the Robust-Perception Age" - Cadena et al., 2016 - Excellent overview of modern SLAM algorithms
@@ -166,4 +166,17 @@ scout-vision/
 └── Cargo.lock                 # Dependency lock file
 ```
 
+## License
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Contributing
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+Development Setup
+
+## Fork the repository
+```bash
+Create your feature branch (git checkout -b feature/AmazingFeature)
+Commit your changes (git commit -m 'Add some AmazingFeature')
+Push to the branch (git push origin feature/AmazingFeature)
+Open a Pull Request
+```
