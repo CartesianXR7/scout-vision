@@ -206,4 +206,4 @@ Push to the branch (git push origin feature/AmazingFeature)
 Open a Pull Request
 ```
 ## License
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/CartesianXR7/scout-vision/blob/master/LICENSE) file for details.
+GPL-3.0-or-later – see **[LICENSE](https://github.com/CartesianXR7/scout-vision/blob/master/LICENSE)** file for details.
