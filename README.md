@@ -1,4 +1,4 @@
-# Scout Vision 🤖👁️
+# Scout Vision
 
 Real-time computer vision for embedded Rust on Raspberry Pi Zero 2W. This project implements YOLOv8 object detection using custom OpenCV bindings and ONNX Runtime, achieving deterministic performance on severely resource-constrained hardware.
 
@@ -6,7 +6,7 @@ Real-time computer vision for embedded Rust on Raspberry Pi Zero 2W. This projec
 [![Rust](https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white)](https://www.rust-lang.org/)
 [![Platform](https://img.shields.io/badge/platform-Raspberry%20Pi%20Zero%202W-red)](https://www.raspberrypi.com/products/raspberry-pi-zero-2-w/)
 
-## 🎯 Key Features
+## Key Features
 
 - **Deterministic Real-time Performance**: 45-50ms consistent inference time (no GC pauses)
 - **Minimal Memory Footprint**: 45-55MB total RAM usage including model
@@ -15,12 +15,12 @@ Real-time computer vision for embedded Rust on Raspberry Pi Zero 2W. This projec
 - **YOLOv8 Integration**: ONNX Runtime with Rust bindings
 - **Live Web Interface**: Real-time video streaming and telemetry at 5-10 FPS
 
-## 📸 Demo
+## Demo
 
 ![Rover Vision Demo](docs/images/demo.gif)
 
 [Indoor Detection](docs/images/indoor-detection.png) | [Outdoor Detection](docs/images/outdoor-detection.png)
 
-## 🏗️ Architecture
+## Architecture
 
 This project uses a hybrid architecture combining Rust's safety guarantees with Python's hardware access capabilities:
