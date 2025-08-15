@@ -138,8 +138,11 @@ OpenCV: Computer vision library
 
 **Related Work & Inspiration**
 
-rust-cv: Computer vision algorithms in Rust
-- "Past, Present, and Future of Simultaneous Localization And Mapping: Towards the Robust-Perception Age" - Cadena et al., 2016 - Excellent overview of modern SLAM algorithms
+- [rust-navigator](https://github.com/CartesianXR7/scout-navigator): navigational pathfinding & re-routing system for an autonomous rover
+-- ["Navigating Mars with Rust: Developing an Autonomous Pathfinding Rover"](https://blog.adacore.com/navigating-mars-with-rust-developing-an-autonomous-pathfinding-rover)
+
+- rust-cv: Computer vision algorithms in Rust
+-- "Past, Present, and Future of Simultaneous Localization And Mapping: Towards the Robust-Perception Age" - Cadena et al., 2016 - Excellent overview of modern SLAM algorithms
 
 Troubleshooting
 
@@ -148,7 +151,6 @@ Troubleshooting
 1. **Build fails with "out of memory"**
   - Use `cargo build` instead of `cargo build --release`
   - Add swap space: `sudo dphys-swapfile swapsize 2048`
-  - Consider cross-compilation from a more powerful machine
 
 2. **Camera not detected**
   - Enable camera: `sudo raspi-config` → Interface Options → Camera
@@ -165,7 +167,6 @@ Troubleshooting
   - Download if missing: `./scripts/download_model.sh`
 
 5. **Python bridge errors**
-  - Install Python dependencies: `pip3 install numpy opencv-python`
   - Check Python version: `python3 --version` (needs 3.9+)
 
 ## Project Structure
