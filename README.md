@@ -131,15 +131,6 @@ OpenCV: Computer vision library
 - [Raspberry Pi Zero 2W](https://www.raspberrypi.com/products/raspberry-pi-zero-2-w/): Target hardware platform
 - [4tronix Mars Rover Kit](https://shop.4tronix.co.uk/products/marsrover): Robotics platform
 
-## Related Work & Inspiration
-[rust-navigator](https://github.com/CartesianXR7/scout-navigator): navigational pathfinding & re-routing system for an autonomous rover
-- ["Navigating Mars with Rust: Developing an Autonomous Pathfinding Rover"](https://blog.adacore.com/navigating-mars-with-rust-developing-an-autonomous-pathfinding-rover)
-[rust-cv](https://github.com/rust-cv/cv): Computer vision algorithms in Rust
-[TheiaSfM](http://theia-sfm.org/): Structure from Motion library (architectural inspiration)
-- "Past, Present, and Future of Simultaneous Localization And Mapping: Towards the Robust-Perception Age" - Cadena et al., 2016 - Excellent overview of modern SLAM algorithms
-rust-cv: Computer vision algorithms in Rust
-- "Past, Present, and Future of Simultaneous Localization And Mapping: Towards the Robust-Perception Age" - Cadena et al., 2016 - Excellent overview of modern SLAM algorithms
-
 ## Troubleshooting
 
 ### Common Issues
@@ -201,5 +192,14 @@ Commit your changes (git commit -m 'Add some AmazingFeature')
 Push to the branch (git push origin feature/AmazingFeature)
 Open a Pull Request
 ```
+## Related Work & Inspiration
+[rust-navigator](https://github.com/CartesianXR7/scout-navigator): navigational pathfinding & re-routing system for an autonomous rover
+- ["Navigating Mars with Rust: Developing an Autonomous Pathfinding Rover"](https://blog.adacore.com/navigating-mars-with-rust-developing-an-autonomous-pathfinding-rover)
+[rust-cv](https://github.com/rust-cv/cv): Computer vision algorithms in Rust
+[TheiaSfM](http://theia-sfm.org/): Structure from Motion library (architectural inspiration)
+- "Past, Present, and Future of Simultaneous Localization And Mapping: Towards the Robust-Perception Age" - Cadena et al., 2016 - Excellent overview of modern SLAM algorithms
+rust-cv: Computer vision algorithms in Rust
+- "Past, Present, and Future of Simultaneous Localization And Mapping: Towards the Robust-Perception Age" - Cadena et al., 2016 - Excellent overview of modern SLAM algorithms
+
 ## License
 GPL-3.0-or-later – see **[LICENSE](https://github.com/CartesianXR7/scout-vision/blob/master/LICENSE)** file for details.
