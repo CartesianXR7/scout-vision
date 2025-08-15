@@ -56,6 +56,30 @@ sudo apt install -y \
     libxkbcommon-dev \
     libudev-dev
 ```
+### Install Rust
+
+```bash
+# Install Rust if not already installed
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source $HOME/.cargo/env
+
+# Verify installation
+rustc --version
+```
+### Clone and Build
+
+```bash
+# Clone the repository
+git clone https://github.com/CartesianXR7/scout-vision.git
+cd scout-vision
+
+# Build the project (Warning: Takes 3+ hours on Pi Zero 2W!)
+cargo build --release
+
+# For faster development builds (less optimized):
+cargo build
+```
+
 ## Demo
 
 ![Rover Vision Demo](docs/images/demo.gif)
@@ -65,7 +89,11 @@ sudo apt install -y \
 ## Architecture
 
 This project uses a hybrid architecture combining Rust's safety guarantees with Python's hardware access capabilities:
-
+Camera → Python Bridge → Rust Vision System → Navigation Commands
+            ↓                  ↓                      ↓
+       MJPEG Stream     Object Detection       Motor Control
+            ↓                  ↓                      ↓
+       Web Interface     Grid Mapping          Path Planning
 
 ## Core Technologies
 
