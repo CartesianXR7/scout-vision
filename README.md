@@ -3,7 +3,6 @@
 Real-time computer vision for embedded Rust on Raspberry Pi Zero 2W - developed for the Scout Rust Rover project. This project implements YOLOv8 object detection using custom OpenCV bindings and ONNX Runtime, achieving deterministic performance on severely resource-constrained hardware.
 
 [![CI](https://github.com/CartesianXR7/ScoutNav/actions/workflows/ci.yml/badge.svg)](https://github.com/CartesianXR7/ScoutNav/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Rust](https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white)](https://www.rust-lang.org/)
 [![Platform](https://img.shields.io/badge/platform-Raspberry%20Pi%20Zero%202W-red)](https://www.raspberrypi.com/products/raspberry-pi-zero-2-w/)
 [![License: GPL-3.0-or-later](https://img.shields.io/badge/License-GPLv3%2B-blue.svg)](LICENSE) 
