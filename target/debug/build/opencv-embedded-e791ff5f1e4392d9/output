@@ -1,0 +1,7 @@
+cargo:rustc-link-lib=opencv_core
+cargo:rustc-link-lib=opencv_dnn
+cargo:rustc-link-lib=opencv_imgproc
+cargo:rustc-link-lib=opencv_imgcodecs
+cargo:rustc-link-lib=opencv_wrapper
+cargo:rustc-link-search=/usr/lib/aarch64-linux-gnu
+cargo:rustc-link-search=/usr/local/lib

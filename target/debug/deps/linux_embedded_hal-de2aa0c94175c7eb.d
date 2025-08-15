@@ -1,0 +1,9 @@
+/home/cartesianxr7/scout-vision/target/debug/deps/linux_embedded_hal-de2aa0c94175c7eb.d: /home/cartesianxr7/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/linux-embedded-hal-0.3.2/src/lib.rs /home/cartesianxr7/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/linux-embedded-hal-0.3.2/src/serial.rs /home/cartesianxr7/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/linux-embedded-hal-0.3.2/src/timer.rs /home/cartesianxr7/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/linux-embedded-hal-0.3.2/src/sysfs_pin.rs /home/cartesianxr7/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/linux-embedded-hal-0.3.2/src/cdev_pin.rs
+
+/home/cartesianxr7/scout-vision/target/debug/deps/liblinux_embedded_hal-de2aa0c94175c7eb.rmeta: /home/cartesianxr7/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/linux-embedded-hal-0.3.2/src/lib.rs /home/cartesianxr7/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/linux-embedded-hal-0.3.2/src/serial.rs /home/cartesianxr7/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/linux-embedded-hal-0.3.2/src/timer.rs /home/cartesianxr7/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/linux-embedded-hal-0.3.2/src/sysfs_pin.rs /home/cartesianxr7/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/linux-embedded-hal-0.3.2/src/cdev_pin.rs
+
+/home/cartesianxr7/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/linux-embedded-hal-0.3.2/src/lib.rs:
+/home/cartesianxr7/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/linux-embedded-hal-0.3.2/src/serial.rs:
+/home/cartesianxr7/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/linux-embedded-hal-0.3.2/src/timer.rs:
+/home/cartesianxr7/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/linux-embedded-hal-0.3.2/src/sysfs_pin.rs:
+/home/cartesianxr7/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/linux-embedded-hal-0.3.2/src/cdev_pin.rs:

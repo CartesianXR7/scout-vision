@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scout Navigational Vision System</title>
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #141414;
+            --text-primary: #e0e0e0;
+            --text-secondary: #808080;
+            --accent: #2a7fff;
+            --success: #52c41a;
+            --warning: #faad14;
+            --danger: #ff4d4f;
+            --border: #303030;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Display', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow: hidden;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            height: 100vh;
+            gap: 1px;
+            background: var(--border);
+        }
+
+        .header {
+            grid-column: 1 / -1;
+            background: var(--bg-secondary);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header h1 {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .header .subtitle {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-left: 12px;
+        }
+
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 500;
+            background: var(--success);
+            color: #000;
+        }
+
+        .main-view {
+            background: var(--bg-primary);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        #video-feed {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        #bbox-overlay {
+            position: absolute;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+        }
+
+        #overlay-stats {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+
+        .stat {
+            display: flex;
+            gap: 8px;
+            margin: 4px 0;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+        }
+
+        .stat-value {
+            color: var(--text-primary);
+            font-weight: 500;
+            font-family: 'SF Mono', monospace;
+        }
+
+        .sidebar {
+            background: var(--bg-secondary);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .section {
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .nav-status {
+            padding: 12px;
+            background: var(--bg-primary);
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+
+        .nav-status.clear {
+            border-left: 3px solid var(--success);
+        }
+
+        .nav-status.warning {
+            border-left: 3px solid var(--warning);
+        }
+
+        .nav-status.blocked {
+            border-left: 3px solid var(--danger);
+        }
+
+        .nav-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+            font-size: 12px;
+        }
+
+        .nav-value {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .detection-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+
+        .detection-item {
+            background: var(--bg-primary);
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            border-left: 2px solid var(--accent);
+            font-size: 12px;
+            transition: opacity 0.3s;
+        }
+
+        .detection-item.old {
+            opacity: 0.5;
+        }
+
+        .detection-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+
+        .detection-class {
+            color: var(--text-primary);
+            font-weight: 500;
+            text-transform: capitalize;
+        }
+
+        .detection-confidence {
+            color: var(--success);
+            font-family: 'SF Mono', monospace;
+        }
+
+        .detection-details {
+            color: var(--text-secondary);
+            font-size: 11px;
+        }
+
+        .controls {
+            padding: 16px;
+            background: var(--bg-primary);
+            display: flex;
+            gap: 8px;
+        }
+
+        button {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background: var(--border);
+        }
+
+        button.danger {
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        .tracked-objects {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .tracked-object {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 11px;
+        }
+
+        .object-id {
+            color: var(--text-secondary);
+            font-family: 'SF Mono', monospace;
+            font-size: 10px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+
+        .light-theme {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --border: #e0e0e0;
+        }
+
+        .light-theme #overlay-stats {
+            background: rgba(255, 255, 255, 0.9);
+            color: #000;
+            border: 1px solid #ddd;
+        }
+
+        .light-theme .stat-label {
+            color: #666;
+        }
+
+        .light-theme .stat-value {
+            color: #000;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div style="display: flex; align-items: center;">
+                <h1>Scout Navigational Vision System</h1>
+                <span class="subtitle">Path View @ 30 FPS</span>
+            </div>
+            <div style="display: flex; gap: 12px; align-items: center;">
+                <span class="status-badge" id="connection-status">CONNECTED</span>
+                <button onclick="toggleTheme()" style="width: auto; padding: 6px 12px;">◐</button>
+            </div>
+        </div>
+
+        <div class="main-view">
+            <img id="video-feed" alt="Live Feed">
+            <canvas id="bbox-overlay"></canvas>
+            
+            <div id="overlay-stats">
+                <div class="stat">
+                    <span class="stat-label">FPS:</span>
+                    <span class="stat-value" id="fps">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Objects:</span>
+                    <span class="stat-value" id="object-count">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Frame:</span>
+                    <span class="stat-value" id="frame-count">0</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <div class="section">
+                <div class="section-title">Navigation</div>
+                <div class="nav-status" id="nav-status">
+                    <div class="nav-item">
+                        <span>Status:</span>
+                        <span class="nav-value" id="path-status">CLEAR</span>
+                    </div>
+                    <div class="nav-item">
+                        <span>Action:</span>
+                        <span class="nav-value" id="nav-action">Continue</span>
+                    </div>
+                    <div class="nav-item">
+                        <span>Speed:</span>
+                        <span class="nav-value" id="nav-speed">0.0 m/s</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Active Tracking</div>
+                <div class="tracked-objects" id="tracked-objects"></div>
+            </div>
+
+            <div class="detection-list" id="detection-list"></div>
+
+            <div class="controls">
+                <button onclick="clearHistory()">Clear</button>
+                <button onclick="toggleBoxes()">Boxes</button>
+                <button class="danger" onclick="emergencyStop()">STOP</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let ws = null;
+        let frameCount = 0;
+        let lastFrameTime = Date.now();
+        let fps = 0;
+        let showBoxes = true;
+        let objectTracker = new Map();
+        let nextObjectId = 1;
+        let detectionHistory = [];
+
+        function connectWebSocket() {
+            const wsUrl = `ws://${window.location.host}/ws`;
+            ws = new WebSocket(wsUrl);
+
+            ws.onopen = () => {
+                document.getElementById('connection-status').textContent = 'CONNECTED';
+                document.getElementById('connection-status').style.background = '#52c41a';
+            };
+
+            ws.onmessage = (event) => {
+                try {
+                    const data = JSON.parse(event.data);
+                    handleFrameData(data);
+                } catch (error) {
+                    console.error('Parse error:', error);
+                }
+            };
+
+            ws.onerror = () => {
+                document.getElementById('connection-status').textContent = 'ERROR';
+                document.getElementById('connection-status').style.background = '#ff4d4f';
+            };
+
+            ws.onclose = () => {
+                document.getElementById('connection-status').textContent = 'DISCONNECTED';
+                document.getElementById('connection-status').style.background = '#faad14';
+                setTimeout(connectWebSocket, 3000);
+            };
+        }
+
+        function handleFrameData(data) {
+            // Update FPS
+            frameCount++;
+            const now = Date.now();
+            if (now - lastFrameTime > 1000) {
+                fps = Math.round(frameCount * 1000 / (now - lastFrameTime));
+                document.getElementById('fps').textContent = fps;
+                frameCount = 0;
+                lastFrameTime = now;
+            }
+            document.getElementById('frame-count').textContent = frameCount;
+
+            // Update video feed - CONTINUOUS STREAM
+            if (data.image && data.image.length > 0) {
+                const img = document.getElementById('video-feed');
+                img.src = 'data:image/jpeg;base64,' + data.image;
+                
+                // Draw boxes after image loads
+                img.onload = function() {
+                    if (showBoxes && data.detections) {
+                        drawBoundingBoxes(img, data.detections);
+                    }
+                };
+            }
+
+            // Update detections
+            if (data.detections) {
+                updateActiveTracking(data.detections);
+                addToDetectionHistory(data.detections);
+            }
+
+            // Update navigation
+            if (data.path_status) {
+                const navEl = document.getElementById('nav-status');
+                const status = data.path_status.status;
+                document.getElementById('path-status').textContent = status;
+                
+                navEl.className = 'nav-status';
+                if (status === 'CLEAR') navEl.classList.add('clear');
+                else if (status === 'CAUTION') navEl.classList.add('warning');
+                else if (status === 'BLOCKED') navEl.classList.add('blocked');
+            }
+
+            if (data.navigation) {
+                document.getElementById('nav-action').textContent = data.navigation.action;
+                document.getElementById('nav-speed').textContent = `${data.navigation.speed.toFixed(1)} m/s`;
+            }
+        }
+
+        function trackObjects(detections) {
+            const POSITION_THRESHOLD = 100;
+            const currentTime = Date.now();
+            const trackedDetections = [];
+            
+            // Mark all as not updated
+            objectTracker.forEach(track => {
+                track.updated = false;
+            });
+            
+            // Match detections to existing tracks
+            detections.forEach(det => {
+                let matched = false;
+                
+                objectTracker.forEach((track, id) => {
+                    if (!matched && track.class_name === det.class_name && !track.updated) {
+                        const dx = Math.abs(track.lastX - det.bbox[0]);
+                        const dy = Math.abs(track.lastY - det.bbox[1]);
+                        
+                        if (dx < POSITION_THRESHOLD && dy < POSITION_THRESHOLD) {
+                            // Update existing track
+                            track.lastX = det.bbox[0];
+                            track.lastY = det.bbox[1];
+                            track.bbox = det.bbox;
+                            track.confidence = det.confidence;
+                            track.distance = det.distance_estimate || det.distance;
+                            track.lastSeen = currentTime;
+                            track.updated = true;
+                            
+                            trackedDetections.push({
+                                ...det,
+                                trackId: id
+                            });
+                            matched = true;
+                        }
+                    }
+                });
+                
+                if (!matched) {
+                    // New track
+                    const id = nextObjectId++;
+                    objectTracker.set(id, {
+                        class_name: det.class_name,
+                        firstSeen: currentTime,
+                        lastSeen: currentTime,
+                        lastX: det.bbox[0],
+                        lastY: det.bbox[1],
+                        bbox: det.bbox,
+                        confidence: det.confidence,
+                        distance: det.distance_estimate || det.distance,
+                        updated: true
+                    });
+                    
+                    trackedDetections.push({
+                        ...det,
+                        trackId: id
+                    });
+                }
+            });
+            
+            // Remove old tracks
+            objectTracker.forEach((track, id) => {
+                if (currentTime - track.lastSeen > 3000) {
+                    objectTracker.delete(id);
+                }
+            });
+            
+            return trackedDetections;
+        }
+
+        function drawBoundingBoxes(img, detections) {
+            const canvas = document.getElementById('bbox-overlay');
+            const ctx = canvas.getContext('2d');
+            
+            // Match canvas to image
+            canvas.width = img.naturalWidth || img.width;
+            canvas.height = img.naturalHeight || img.height;
+            const rect = img.getBoundingClientRect();
+            canvas.style.width = rect.width + 'px';
+            canvas.style.height = rect.height + 'px';
+            canvas.style.left = img.offsetLeft + 'px';
+            canvas.style.top = img.offsetTop + 'px';
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const trackedDets = trackObjects(detections);
+            
+            trackedDets.forEach(det => {
+                if (!det.bbox || det.bbox.length < 4) return;
+                
+                const [x, y, w, h] = det.bbox;
+                const distance = det.distance_estimate || det.distance || 0;
+                
+                // Color based on distance
+                let color = '#00ff00';
+                if (distance < 1.5) color = '#ff0000';
+                else if (distance < 3) color = '#ffaa00';
+                
+                // Draw box
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 2;
+                ctx.strokeRect(x, y, w, h);
+                
+                // Label
+                const label = `ID:${det.trackId} ${det.class_name} ${(det.confidence * 100).toFixed(0)}%`;
+                ctx.font = 'bold 12px Arial';
+                const textWidth = ctx.measureText(label).width;
+                
+                ctx.fillStyle = 'rgba(0,0,0,0.7)';
+                ctx.fillRect(x, y - 18, textWidth + 6, 18);
+                
+                ctx.fillStyle = color;
+                ctx.fillText(label, x + 3, y - 5);
+            });
+        }
+
+        function updateActiveTracking(detections) {
+            const container = document.getElementById('tracked-objects');
+            container.innerHTML = '';
+            
+            const trackedDets = trackObjects(detections);
+            
+            trackedDets.forEach(det => {
+                const el = document.createElement('div');
+                el.className = 'tracked-object';
+                const distance = det.distance_estimate || det.distance || 0;
+                el.innerHTML = `
+                    <span>
+                        <span class="object-id">OBJ_${det.trackId}</span>
+                        ${det.class_name}
+                    </span>
+                    <span>${distance.toFixed(1)}m · ${(det.confidence * 100).toFixed(0)}%</span>
+                `;
+                container.appendChild(el);
+            });
+            
+            document.getElementById('object-count').textContent = trackedDets.length;
+        }
+
+        function addToDetectionHistory(detections) {
+            const now = Date.now();
+            
+            detections.forEach(det => {
+                detectionHistory.unshift({
+                    ...det,
+                    timestamp: now
+                });
+            });
+            
+            // Keep only last 50 detections
+            detectionHistory = detectionHistory.slice(0, 50);
+            
+            updateDetectionHistoryUI();
+        }
+
+        function updateDetectionHistoryUI() {
+            const container = document.getElementById('detection-list');
+            container.innerHTML = '';
+            
+            const now = Date.now();
+            
+            detectionHistory.forEach(det => {
+                const age = now - det.timestamp;
+                const el = document.createElement('div');
+                el.className = 'detection-item';
+                if (age > 5000) el.classList.add('old');
+                
+                const timeStr = age < 1000 ? 'now' : 
+                               age < 60000 ? `${Math.floor(age/1000)}s ago` : 
+                               `${Math.floor(age/60000)}m ago`;
+                
+                const distance = det.distance_estimate || det.distance || 0;
+                
+                el.innerHTML = `
+                    <div class="detection-header">
+                        <span class="detection-class">${det.class_name}</span>
+                        <span class="detection-confidence">${(det.confidence * 100).toFixed(0)}%</span>
+                    </div>
+                    <div class="detection-details">
+                        Distance: ${distance.toFixed(1)}m · ${timeStr}
+                    </div>
+                `;
+                
+                container.appendChild(el);
+            });
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('light-theme');
+        }
+
+        function toggleBoxes() {
+            showBoxes = !showBoxes;
+            if (!showBoxes) {
+                const canvas = document.getElementById('bbox-overlay');
+                const ctx = canvas.getContext('2d');
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+        function clearHistory() {
+            detectionHistory = [];
+            updateDetectionHistoryUI();
+        }
+
+        function emergencyStop() {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({cmd: 'emergency_stop'}));
+            }
+        }
+
+        // Initialize
+        connectWebSocket();
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'b') toggleBoxes();
+            if (e.key === 't') toggleTheme();
+            if (e.key === 'c') clearHistory();
+            if (e.key === 'Escape') emergencyStop();
+        });
+    </script>
+</body>
+</html>

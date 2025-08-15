@@ -1,0 +1,18 @@
+[package]
+name = "opencv-embedded"
+version = "0.1.0"
+edition = "2021"
+description = "Minimal OpenCV bindings for embedded Rust"
+license = "MIT"
+
+[dependencies]
+libc = "0.2"
+
+[build-dependencies]
+# No bindgen needed - we're using manual FFI
+
+[features]
+default = ["dnn", "imgproc"]
+dnn = []
+imgproc = []
+# Removed generate-bindings feature since bindgen is not being used
