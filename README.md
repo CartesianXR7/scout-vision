@@ -19,6 +19,43 @@ Real-time computer vision for embedded Rust on Raspberry Pi Zero 2W - developed 
 - **[Pre-Compiled Release Binary](https://github.com/CartesianXR7/scout-vision/blob/master/target/release/rover)**: Pre-compiled binary for Pi Zero 2W included to avoid slow / difficult compilation
 - **[Custom OpenCV Bindings](https://github.com/CartesianXR7/scout-vision/tree/master/opencv-embedded)**: Hybrid FFI approach to avoid resource-constrained compilation
 
+## 📋 Prerequisites
+
+### Hardware Requirements
+- Raspberry Pi Zero 2W (512MB RAM minimum)
+- Raspberry Pi Camera Module or USB camera
+- MicroSD card (16GB minimum)
+- 5V 2.5A power supply (recommended: Waveshare UPS HAT for extended operation)
+
+### Software Requirements
+- Raspberry Pi OS Lite (64-bit)
+- Rust 1.75.0 or later
+- Python 3.9+
+- OpenCV 4.5+ system libraries
+
+## 🔧 Build Instructions
+
+### Install System Dependencies
+
+On Raspberry Pi OS / Ubuntu 20.04:
+
+```bash
+# Update package lists
+sudo apt update
+
+# Install build essentials
+sudo apt install -y build-essential cmake pkg-config
+
+# Install OpenCV and dependencies
+sudo apt install -y libopencv-dev python3-opencv python3-pip
+
+# Install additional required libraries
+sudo apt install -y \
+    libssl-dev \
+    libfreetype6-dev \
+    libxkbcommon-dev \
+    libudev-dev
+
 ## Demo
 
 ![Rover Vision Demo](docs/images/demo.gif)
