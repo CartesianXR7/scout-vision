@@ -13,8 +13,8 @@ bytes = "1.10"
 
 # Image processing
 image = { version = "0.24", default-features = false, features = ["jpeg", "png"] }
-imageproc = "0.23"  # For drawing bounding boxes
-rusttype = "0.9"    # For text on images
+imageproc = "0.23"  
+rusttype = "0.9"  
 
 # Core
 anyhow = "1.0"
@@ -33,7 +33,7 @@ base64 = "0.21"
 futures-util = "0.3"
 
 # Hardware control
-rppal = { version = "0.14", features = ["hal"] }  # For GPIO/I2C
+rppal = { version = "0.14", features = ["hal"] } 
 linux-embedded-hal = "0.3"
 embedded-hal = "0.2"
 
@@ -41,15 +41,14 @@ embedded-hal = "0.2"
 pathfinding = "4.3"
 
 # Utilities
-dashmap = "5.5"  # For concurrent hashmap
-parking_lot = "0.12"  # Better mutexes
-crossbeam-channel = "0.5"  # For message passing
+dashmap = "5.5" 
+parking_lot = "0.12" 
+crossbeam-channel = "0.5" 
 once_cell = "1.19"
 chrono = "0.4"
 log = "0.4"
 env_logger = "0.10"
 
-# Your custom OpenCV bindings (if still needed for camera)
 opencv-embedded = { path = "opencv-embedded" }
 
 [[bin]]
@@ -57,9 +56,9 @@ name = "rover"
 path = "src/main.rs"
 
 [profile.dev]
-opt-level = 1  # Some optimization even in debug
+opt-level = 1  
 
 [profile.release]
-opt-level = 2  # Not 3 - too heavy for Pi Zero 2W
-lto = false    # Disable LTO to reduce compile time
-codegen-units = 16  # More units = faster compile
+opt-level = 2  
+lto = false   
+codegen-units = 16 
