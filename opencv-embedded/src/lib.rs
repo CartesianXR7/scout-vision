@@ -4,7 +4,6 @@ use std::ffi::{c_void, c_int};
 use std::ffi::CString;
 use std::ptr;
 
-// Link to OpenCV libraries
 #[link(name = "opencv_core")]
 #[link(name = "opencv_imgproc")]
 #[link(name = "opencv_dnn")]
@@ -15,7 +14,6 @@ extern "C" {
     fn cvSet2D(mat: *mut c_void, row: c_int, col: c_int, value: f64);
 }
 
-// Core module
 pub mod core {
     use super::*;
     use std::ffi::c_void;
@@ -190,7 +188,6 @@ pub mod core {
     }
 }
 
-// DNN module
 pub mod dnn {
     use super::*;
     use crate::core::{Mat, Size, Scalar, Vector, Error, Result};
@@ -360,7 +357,6 @@ pub mod dnn {
     }
 }
 
-// ImgProc module (minimal)
 pub mod imgproc {
     use super::*;
     
@@ -369,7 +365,6 @@ pub mod imgproc {
     }
 }
 
-// ImgCodecs module (minimal)
 pub mod imgcodecs {
     use super::*;
     
