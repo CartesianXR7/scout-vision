@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# src/vision_bridge.py - Map IMX500 coordinates to 640x480 frame
+# src/vision_bridge.py 
 import os
 import sys
 import json
@@ -18,7 +18,6 @@ class VisionBridge:
         signal.signal(signal.SIGTERM, self.signal_handler)
         signal.signal(signal.SIGINT, self.signal_handler)
         
-        # ALL 80 COCO classes
         self.coco_classes = [
             "person", "bicycle", "car", "motorcycle", "airplane", "bus", "train", "truck",
             "boat", "traffic light", "fire hydrant", "stop sign", "parking meter", "bench",
@@ -34,7 +33,6 @@ class VisionBridge:
             "toothbrush"
         ]
         
-        # Track coordinate ranges to understand the scale
         self.min_x_raw = float('inf')
         self.max_x_raw = 0
         self.min_y_raw = float('inf')
@@ -75,7 +73,6 @@ class VisionBridge:
                     break
                 line = line.decode('utf-8', errors='ignore')
                 
-                # Clear detections on new frame
                 num_match = re.search(r'Number of objects detected:\s*(\d+)', line)
                 if num_match:
                     num = int(num_match.group(1))
@@ -83,14 +80,11 @@ class VisionBridge:
                         self.current_frame_detections = []
                     continue
                 
-                # Parse detection line
-                # [0] : person[0] (0.62) @ 88385,15354 0x0
                 det_pattern = r'\[(\d+)\]\s*:\s*(\w+)\[?(\d*)\]?\s*\(([0-9.]+)\)\s*@\s*(\d+),(\d+)\s*(\d+)x(\d+)'
                 match = re.search(det_pattern, line)
                 if match:
                     class_str = match.group(2)
                     
-                    # Get class name
                     if class_str.isdigit():
                         class_id = int(class_str)
                         class_name = self.coco_classes[class_id] if class_id < len(self.coco_classes) else "object"
@@ -101,11 +95,9 @@ class VisionBridge:
                         except ValueError:
                             class_id = 0
                     
-                    # Parse the RAW coordinates
                     center_x_raw = int(match.group(5))
                     center_y_raw = int(match.group(6))
                     
-                    # Track min/max to understand the coordinate space
                     self.min_x_raw = min(self.min_x_raw, center_x_raw)
                     self.max_x_raw = max(self.max_x_raw, center_x_raw)
                     self.min_y_raw = min(self.min_y_raw, center_y_raw)
@@ -123,7 +115,6 @@ class VisionBridge:
                     IMX500_WIDTH = 12288  # Estimated based on max observed values
                     IMX500_HEIGHT = 9216  # Estimated based on max observed values
                     
-                    # Convert from IMX500 coordinates to 640x480
                     center_x = int((center_x_raw / 16) * 640 / IMX500_WIDTH)
                     center_y = int((center_y_raw / 16) * 480 / IMX500_HEIGHT)
                     
@@ -135,30 +126,24 @@ class VisionBridge:
                     # else:
                     #     continue
                     
-                    # Ensure within bounds
                     center_x = max(0, min(center_x, 639))
                     center_y = max(0, min(center_y, 479))
                     
-                    # Get confidence
                     conf = float(match.group(4))
                     
-                    # Calculate box size based on confidence and class
                     if class_name == "person":
-                        # Scale based on confidence
-                        base_h = int(100 + conf * 60)  # 100-160 pixels
-                        base_w = int(base_h * 0.4)     # People are narrow
+                        base_h = int(100 + conf * 60) 
+                        base_w = int(base_h * 0.4)  
                     elif class_name in ["car", "truck", "bus"]:
                         base_h = int(60 + conf * 40)
-                        base_w = int(base_h * 1.5)     # Vehicles are wider
+                        base_w = int(base_h * 1.5)    
                     else:
                         base_h = int(50 + conf * 50)
                         base_w = base_h
                     
-                    # Calculate top-left corner from center
                     x = center_x - base_w // 2
                     y = center_y - base_h // 2
                     
-                    # Ensure within bounds
                     x = max(0, min(x, 640 - base_w))
                     y = max(0, min(y, 480 - base_h))
                     
@@ -184,7 +169,6 @@ class VisionBridge:
         stderr_thread = threading.Thread(target=parse_stderr, daemon=True)
         stderr_thread.start()
         
-        # Stream MJPEG frames
         buffer = b''
         frame_id = 0
         
