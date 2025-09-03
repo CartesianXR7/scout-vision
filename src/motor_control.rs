@@ -17,7 +17,7 @@ pub struct MotorController {
 
 impl MotorController {
     pub fn new() -> Result<Self> {
-        println!("🚗 Initializing Motor Controller...");
+        println!(" Initializing Motor Controller...");
         Ok(Self {
             speed: 0.0,
             heading: 0.0,
@@ -27,33 +27,33 @@ impl MotorController {
     
     pub fn move_forward(&mut self, speed: f32) {
         self.speed = speed.clamp(0.0, 1.0);
-        println!("➡️ Moving forward at speed {:.1}", self.speed);
+        println!("➡ Moving forward at speed {:.1}", self.speed);
     }
     
     pub fn move_backward(&mut self, speed: f32) {
         self.speed = -speed.clamp(0.0, 1.0);
-        println!("⬅️ Moving backward at speed {:.1}", self.speed);
+        println!(" Moving backward at speed {:.1}", self.speed);
     }
     
     pub fn turn_left(&mut self, angle: f32) {
         self.heading -= angle;
-        println!("↪️ Turning left by {:.1}°", angle);
+        println!(" Turning left by {:.1}°", angle);
     }
     
     pub fn turn_right(&mut self, angle: f32) {
         self.heading += angle;
-        println!("↩️ Turning right by {:.1}°", angle);
+        println!(" Turning right by {:.1}°", angle);
     }
     
     pub fn stop(&mut self) {
         self.speed = 0.0;
-        println!("⏹️ Stopped");
+        println!(" Stopped");
     }
     
     pub fn emergency_stop(&mut self) {
         self.speed = 0.0;
         self.enabled = false;
-        println!("🛑 EMERGENCY STOP!");
+        println!(" EMERGENCY STOP!");
     }
     
     pub fn get_speed(&self) -> f32 {
