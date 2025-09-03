@@ -15,4 +15,3 @@ libc = "0.2"
 default = ["dnn", "imgproc"]
 dnn = []
 imgproc = []
-# Removed generate-bindings feature since bindgen is not being used
