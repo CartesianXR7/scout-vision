@@ -8,7 +8,6 @@ fn main() {
     // Link to our custom wrapper
     println!("cargo:rustc-link-lib=opencv_wrapper");
 
-    // Tell cargo where to find OpenCV and our wrapper
     println!("cargo:rustc-link-search=/usr/lib/aarch64-linux-gnu");
     println!("cargo:rustc-link-search=/usr/local/lib");
 }
