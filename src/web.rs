@@ -20,7 +20,7 @@ use crate::motor_control::MotorController;
 
 #[derive(Serialize)]
 struct FrameData {
-    image: String,  // Base64 encoded JPEG
+    image: String, 
     detections: Vec<Detection>,
     telemetry: VisionTelemetry,
     path_status: PathStatus,
@@ -30,8 +30,8 @@ struct FrameData {
 
 #[derive(Serialize)]
 struct PathStatus {
-    status: String,  // CLEAR, CAUTION, BLOCKED
-    color: String,   // green, yellow, red
+    status: String,  
+    color: String, 
     obstacles: usize,
 }
 
@@ -67,10 +67,8 @@ impl WebServer {
     }
 
     pub async fn run(self: Arc<Self>) {
-        // Serve static files
         let static_files = warp::fs::dir("static");
 
-        // WebSocket endpoint
         let ws_route = warp::path("ws")
             .and(warp::ws())
             .map({
@@ -88,10 +86,9 @@ impl WebServer {
 
         let routes = static_files.or(ws_route);
 
-        // Start frame broadcast loop
         self.clone().start_frame_broadcaster();
 
-        println!("🌐 Web server ready at http://0.0.0.0:8080");
+        println!(" Web server ready at http://0.0.0.0:8080");
         warp::serve(routes).run(([0, 0, 0, 0], 8080)).await;
     }
 
@@ -99,7 +96,6 @@ impl WebServer {
         let (mut ws_tx, mut ws_rx) = ws.split();
         let (tx, rx) = mpsc::unbounded_channel();
 
-        // Assign client ID
         let client_id = {
             let mut next_id = self.next_client_id.write();
             let id = *next_id;
@@ -107,10 +103,8 @@ impl WebServer {
             id
         };
 
-        // Store client sender
         self.clients.write().insert(client_id, tx);
 
-        // Forward messages to client
         let mut rx = UnboundedReceiverStream::new(rx);
         tokio::spawn(async move {
             while let Some(msg) = rx.next().await {
@@ -120,23 +114,19 @@ impl WebServer {
             }
         });
 
-        // Handle incoming messages
         while let Some(msg) = ws_rx.next().await {
             if let Ok(msg) = msg {
-                // Handle any client messages
             } else {
                 break;
             }
         }
 
-        // Remove client on disconnect
         self.clients.write().remove(&client_id);
     }
 
     fn start_frame_broadcaster(self: Arc<Self>) {
         tokio::spawn(async move {
             loop {
-                // Get frame AND detections from vision
                 let frame_data = {
                     let vision = self.vision.read();
                     let detections = vision.get_last_detections();
@@ -165,7 +155,6 @@ impl WebServer {
     }
 
     async fn create_frame_data(&self) -> FrameData {
-        // Get current data from vision system
         let (image_base64, detections, telemetry, nav_action) = {
             let vision = self.vision.read();
             (
@@ -176,7 +165,6 @@ impl WebServer {
             )
         };
 
-        // Determine path status based on detections
         let path_status = if detections.is_empty() {
             PathStatus {
                 status: "CLEAR".to_string(),
@@ -184,7 +172,6 @@ impl WebServer {
                 obstacles: 0,
             }
         } else {
-            // Get closest detection
             let closest = &detections[0];
             let (status, color) = match nav_action {
                 NavigationAction::EmergencyStop => ("BLOCKED", "red"),
@@ -200,7 +187,6 @@ impl WebServer {
             }
         };
 
-        // Get navigation info
         let navigation = NavigationInfo {
             action: format!("{:?}", nav_action),
             speed: match nav_action {
@@ -224,5 +210,4 @@ impl WebServer {
     }
 }
 
-// Helper for JSON macro
 use serde_json::json;
