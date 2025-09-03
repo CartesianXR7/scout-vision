@@ -61,10 +61,10 @@ pub struct VisionSystem {
 
 impl VisionSystem {
     pub fn new() -> Result<Self> {
-        println!("🔧 Initializing Vision System...");
+        println!(" Initializing Vision System...");
         
         let (bridge_process, frame_receiver) = Self::start_camera_bridge()?;
-        println!("  ✅ Vision bridge started");
+        println!("  Vision bridge started");
         
         Ok(Self {
             bridge_process: Some(bridge_process),
@@ -109,10 +109,8 @@ impl VisionSystem {
             Err(_) => return Ok(self.last_detections.read().clone()),  // read() not lock()
         };
         
-        // Store the frame - write() not lock()
         *self.last_frame_base64.write() = frame_data.jpeg_base64;
         
-        // Convert detections
         let mut all_detections = Vec::new();
         for imx_det in &frame_data.imx500_basic {
             let distance = self.calculate_distance(imx_det.h as f32, &imx_det.class);
@@ -133,9 +131,9 @@ impl VisionSystem {
         
         println!("🔬 Running detection on frame {}", self.frame_count);
         if !all_detections.is_empty() {
-            println!("  ✅ Received {} detections from vision bridge", all_detections.len());
+            println!("  Received {} detections from vision bridge", all_detections.len());
         } else {
-            println!("  📊 Frame processed in 0ms with 0 detections");
+            println!("  Frame processed in 0ms with 0 detections");
         }
         
         Ok(all_detections)
