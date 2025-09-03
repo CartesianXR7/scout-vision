@@ -408,7 +408,6 @@
         }
 
         function handleFrameData(data) {
-            // Update FPS
             frameCount++;
             const now = Date.now();
             if (now - lastFrameTime > 1000) {
@@ -419,12 +418,10 @@
             }
             document.getElementById('frame-count').textContent = frameCount;
 
-            // Update video feed - CONTINUOUS STREAM
             if (data.image && data.image.length > 0) {
                 const img = document.getElementById('video-feed');
                 img.src = 'data:image/jpeg;base64,' + data.image;
                 
-                // Draw boxes after image loads
                 img.onload = function() {
                     if (showBoxes && data.detections) {
                         drawBoundingBoxes(img, data.detections);
@@ -432,13 +429,11 @@
                 };
             }
 
-            // Update detections
             if (data.detections) {
                 updateActiveTracking(data.detections);
                 addToDetectionHistory(data.detections);
             }
 
-            // Update navigation
             if (data.path_status) {
                 const navEl = document.getElementById('nav-status');
                 const status = data.path_status.status;
@@ -461,12 +456,10 @@
             const currentTime = Date.now();
             const trackedDetections = [];
             
-            // Mark all as not updated
             objectTracker.forEach(track => {
                 track.updated = false;
             });
             
-            // Match detections to existing tracks
             detections.forEach(det => {
                 let matched = false;
                 
@@ -476,7 +469,6 @@
                         const dy = Math.abs(track.lastY - det.bbox[1]);
                         
                         if (dx < POSITION_THRESHOLD && dy < POSITION_THRESHOLD) {
-                            // Update existing track
                             track.lastX = det.bbox[0];
                             track.lastY = det.bbox[1];
                             track.bbox = det.bbox;
@@ -495,7 +487,6 @@
                 });
                 
                 if (!matched) {
-                    // New track
                     const id = nextObjectId++;
                     objectTracker.set(id, {
                         class_name: det.class_name,
@@ -516,7 +507,6 @@
                 }
             });
             
-            // Remove old tracks
             objectTracker.forEach((track, id) => {
                 if (currentTime - track.lastSeen > 3000) {
                     objectTracker.delete(id);
@@ -530,7 +520,6 @@
             const canvas = document.getElementById('bbox-overlay');
             const ctx = canvas.getContext('2d');
             
-            // Match canvas to image
             canvas.width = img.naturalWidth || img.width;
             canvas.height = img.naturalHeight || img.height;
             const rect = img.getBoundingClientRect();
@@ -549,17 +538,14 @@
                 const [x, y, w, h] = det.bbox;
                 const distance = det.distance_estimate || det.distance || 0;
                 
-                // Color based on distance
                 let color = '#00ff00';
                 if (distance < 1.5) color = '#ff0000';
                 else if (distance < 3) color = '#ffaa00';
                 
-                // Draw box
                 ctx.strokeStyle = color;
                 ctx.lineWidth = 2;
                 ctx.strokeRect(x, y, w, h);
                 
-                // Label
                 const label = `ID:${det.trackId} ${det.class_name} ${(det.confidence * 100).toFixed(0)}%`;
                 ctx.font = 'bold 12px Arial';
                 const textWidth = ctx.measureText(label).width;
@@ -605,7 +591,6 @@
                 });
             });
             
-            // Keep only last 50 detections
             detectionHistory = detectionHistory.slice(0, 50);
             
             updateDetectionHistoryUI();
@@ -667,10 +652,8 @@
             }
         }
 
-        // Initialize
         connectWebSocket();
 
-        // Keyboard shortcuts
         document.addEventListener('keydown', function(e) {
             if (e.key === 'b') toggleBoxes();
             if (e.key === 't') toggleTheme();
