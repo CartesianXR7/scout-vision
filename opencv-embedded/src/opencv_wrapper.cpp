@@ -4,7 +4,6 @@
 #include <vector>
 
 extern "C" {
-    // Global to store the network
     cv::dnn::Net* global_net = nullptr;
     
     void* opencv_dnn_readNetFromDarknet(const char* cfg, const char* weights) {
@@ -50,7 +49,6 @@ extern "C" {
             cv::dnn::Net* net = (cv::dnn::Net*)net_ptr;
             cv::Mat* output = new cv::Mat();
             
-            // Get the output layer names
             std::vector<cv::String> outNames;
             if (layer_name && strlen(layer_name) > 0) {
                 outNames.push_back(layer_name);
@@ -58,7 +56,6 @@ extern "C" {
                 outNames = net->getUnconnectedOutLayersNames();
             }
             
-            // Run forward pass
             std::vector<cv::Mat> outputs;
             net->forward(outputs, outNames);
             
@@ -76,15 +73,12 @@ extern "C" {
     
     void* opencv_dnn_blobFromImage(void* image_ptr, double scale, int width, int height) {
         try {
-            // Create a proper blob from raw image data
             cv::Mat image;
             if (image_ptr) {
-                // Assume image_ptr points to raw RGB data
                 unsigned char* data = (unsigned char*)image_ptr;
                 cv::Mat temp(480, 640, CV_8UC3, data);
                 image = temp.clone();
             } else {
-                // Create test image
                 image = cv::Mat::zeros(480, 640, CV_8UC3);
             }
             
